@@ -30,10 +30,14 @@ private:
 	// グラフィックの幅と高さ	当たり判定にも使用する
 	Vec2 m_size;
 
+	int m_waitFrame;
+
 	// 位置
 	Vec2 m_pos;
 	// ベクトル
 	Vec2 m_vec;
 	// 地面の高さ
 	float m_fieldY;
+
+	bool isDead;
 };
