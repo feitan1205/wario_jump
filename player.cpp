@@ -2,13 +2,18 @@
 #include "game.h"
 #include "player.h"
 
+namespace {
+
+	constexpr float kJumpAcc = -16.0f;
+
+	constexpr float kGravity = 0.8f;
+
+}
+
 Player::Player()
 {
 	m_handle = -1;
 	m_fieldY = 0.0f;
-
-	m_isJumpUp = false;
-	m_isJumpDown = false;
 
 	m_isDead = false;
 }
@@ -32,29 +37,26 @@ void Player:: setup(float fieldY)
 
 void Player::update()
 {
+	if (m_isDead)	return;
+
 	m_pos += m_vec;
+
+	bool isField = false;
+	if (m_pos.y > m_fieldY - m_graphSize.y) {
+		m_pos.y = m_fieldY - m_graphSize.y;
+		isField = true;
+	}
 
 	// ÉLÅ[ì¸óÕèàóù
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	if (padState & PAD_INPUT_1)
 	{
-		m_isJumpUp = true;
+		if (isField) {
+			m_vec.y = kJumpAcc;
+		}
 	}
 
-	if (m_isJumpUp) {
-		m_pos.y -= 4.0f;
-		if (m_pos.y <= 64.0f) {
-			m_isJumpUp = false;
-			m_isJumpDown = true;
-		}
-	}
-	else if(m_isJumpDown) {
-		m_pos.y += 4.0f;
-		if (m_pos.y + m_graphSize.y > m_fieldY) {
-			m_pos.y = m_fieldY - m_graphSize.y;
-			m_isJumpDown = false;
-		}
-	}
+	m_vec.y += kGravity;
 
 }
 
