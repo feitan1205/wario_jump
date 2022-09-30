@@ -11,4 +11,7 @@ namespace Game
 	constexpr int kScreenHeight = 480;
 	// カラーモード
 	constexpr int kColorDepth = 32;		// 32 or 16
+
+	// 地面の高さ
+	constexpr int kFieldY = Game::kScreenHeight - 64;
 };
